@@ -1,4 +1,4 @@
-# Campus Pulse (Flask prototype)
+# Class Pulse (Flask prototype)
 
 A lightweight **course-based classroom interaction** prototype:
 - Students join a course and post **comments/questions** (optionally anonymous)

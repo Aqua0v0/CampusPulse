@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %} · Student Room{% endblock %}
+
+{% block content %}
+  <section class="card">
+    <div class="row between">
+      <div>
+        <h1>Student Room</h1>
+        <p class="muted">
+          Course: <strong>{{ course_code }}</strong> — {{ course_name }}
+        </p>
+      </div>
+      <form method="post" action="{{ url_for('student_leave') }}">
+        <button class="btn secondary" type="submit">Leave</button>
+      </form>
+    </div>
+
+    <div class="divider"></div>
+
+    <form method="post" action="{{ url_for('student_comment') }}" class="form">
+      <label>
+        Your comment / question
+        <textarea name="content" rows="3" placeholder="Type your question..." required></textarea>
+      </label>
+
+      <div class="row gap">
+        <div class="muted small">
+          Posting as:
+          {% if anonymous == 1 %}
+            <span class="pill">Anonymous</span>
+          {% else %}
+            <span class="pill">{{ display_name if display_name else "Student" }}</span>
+          {% endif %}
+          (change it on the Home page when joining)
+        </div>
+        <button class="btn" type="submit">Submit</button>
+      </div>
+    </form>
+  </section>
+
+  <section class="card">
+    <div class="row between">
+      <h2>Live feed</h2>
+      <div class="muted small">Auto-refresh every 3 seconds</div>
+    </div>
+    <div id="feed" class="feed muted">Loading…</div>
+  </section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  const courseId = {{ course_id }};
+</script>
+<script src="{{ url_for('static', filename='js/student_feed.js') }}"></script>
+{% endblock %}

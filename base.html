@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ app_name }}{% block title %}{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <div class="brand">
+        <a href="{{ url_for('index') }}">{{ app_name }}</a>
+        <span class="tag">Real-time lecture interaction</span>
+      </div>
+      <nav class="nav">
+        <a href="{{ url_for('about') }}">About</a>
+        {% if session.get('is_lecturer') %}
+          <a href="{{ url_for('lecturer_dashboard') }}">Lecturer</a>
+          <form class="inline" method="post" action="{{ url_for('lecturer_logout') }}">
+            <button class="linkbtn" type="submit">Logout</button>
+          </form>
+        {% endif %}
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="flash-area">
+          {% for category, message in messages %}
+            <div class="flash flash-{{ category }}">{{ message }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <small>Prototype for coursework — built with Flask.</small>
+    </div>
+  </footer>
+
+  {% block scripts %}{% endblock %}
+</body>
+</html>
